@@ -7,4 +7,4 @@ from .models import Property
 
 @admin.register(Property)
 class Property(admin.ModelAdmin):
-    list_display = ('status', 'value', 'fetched_from', 'propertyId')
+    list_display = ('status', 'value', 'fetched_from', 'propertyId', 'updated_at', 'created_at')

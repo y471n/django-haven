@@ -11,10 +11,11 @@ def handle_property_request(request, endpoint: int = None):
     p, created = get_cached_api_data(propertyId)
     if not created:
         fetch_from_any_endpoint = bool(endpoint)
-        result = fetch_property_price(fetch_from_any_endpoint, propertyId, endpoint)
+        result, endpoint = fetch_property_price(fetch_from_any_endpoint, propertyId, endpoint)
         
         p.status = result['status']
         p.value = result.get('value', '')
+        p.fetched_from = str(endpoint)
         p.save()
     serialized_obj = serializers.serialize('json', [ p ])
     # TODO: Handle cases for no API Results
