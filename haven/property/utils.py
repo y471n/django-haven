@@ -12,8 +12,6 @@ def fetch_property_price(any: bool, propertyId: str, endpoint: int = None) -> di
     params = {'propertyId': propertyId}
     r = requests.get(fetch_api_url, params)
     result = r.json()
-    print(params)
-    print(result)
     return result, endpoint
 
 
@@ -22,5 +20,5 @@ def cache_api_response(status: str, value: str, fetched_from) -> None:
     property.save()
 
 def get_cached_api_data(propertyId):
-    property, created = Property.objects.get_or_create(propertyId='1')
+    property, created = Property.objects.get_or_create(propertyId=str(propertyId))
     return property, created

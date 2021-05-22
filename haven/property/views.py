@@ -9,7 +9,8 @@ def handle_property_request(request, endpoint: int = None):
     if not propertyId:
         return HttpResponseBadRequest()
     p, created = get_cached_api_data(propertyId)
-    if not created:
+    if created:
+        print("Fetching...")
         fetch_from_any_endpoint = bool(endpoint)
         result, endpoint = fetch_property_price(fetch_from_any_endpoint, propertyId, endpoint)
         
@@ -17,7 +18,6 @@ def handle_property_request(request, endpoint: int = None):
         p.value = result.get('value', '')
         p.fetched_from = str(endpoint)
         p.save()
-    serialized_obj = serializers.serialize('json', [ p ])
     # TODO: Handle cases for no API Results
     return JsonResponse({'status': p.status, 'value': p.value})
 
